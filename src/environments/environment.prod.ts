@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  microserviceBaseUrl: 'http://drmt.azurewebsites.net/api'
+  baseUrl: 'https://mls2-webapi.azurewebsites.net/api/'
 };
