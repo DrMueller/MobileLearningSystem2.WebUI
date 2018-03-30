@@ -1,0 +1,45 @@
+<app-collapsible-card>
+  <div class="col-card__contentselector--header">
+    Learning
+  </div>
+  <div class="col-card__contentselector--body">
+    <div>
+      <div class="ls-overview__learningbuttons">
+        <div class="row">
+          <button class="btn btn-primary" [disabled]="!canStartLearningSessionRun()" (click)="startLearningSessionRunClicked()">Start run</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-collapsible-card>
+
+<app-collapsible-card>
+  <div class="col-card__contentselector--header">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-camera fa-stack-1x"></i>
+      <i class="fa fa-ban fa-stack-2x text-danger" style="color:red;"></i>
+    </span>
+    Management
+  </div>
+  <div class="col-card__contentselector--body">
+    <div>
+      <div class="ls-overview__commandbuttons">
+        <div class="row">
+          <button class="btn btn-primary" (click)="createLearningSessionClicked()">Create Session</button>
+          <button class="btn btn-primary" (click)="editLearningSessionClicked()">Edit Session</button>
+          <button class="btn btn-danger" (click)="deleteLearningSessionClicked()">Delete Session</button>
+          <button class="btn btn-secondary" (click)="reloadLearningSessionClicked()">Reload Sessions</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-collapsible-card>
+
+<div class="row">
+  <div class="col">
+    <div *ngIf="grid">
+      <ag-grid-angular class="ag-dark ls-overview__aggrid" [gridOptions]="grid.gridOptions">
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>

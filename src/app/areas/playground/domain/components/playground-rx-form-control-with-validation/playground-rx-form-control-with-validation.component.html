@@ -1,0 +1,36 @@
+<form class="form" [formGroup]="dataForm.formGroup">
+  <div class="row">
+    <div class="col-4">
+      <app-form-control-with-validation [formGroup]="dataForm.formGroup" [validatedControl]="dataForm.getValidatedControl('emailControl')">
+        <div class="fwv__contentselector--body">
+          <label for="emailId">Email address:</label>
+          <input placeholder="E-Mail (Required)" type="email" class="form-control" id="emailId" formControlName="emailControl">
+        </div>
+      </app-form-control-with-validation>
+    </div>
+
+    <div class="col-4">
+      <app-form-control-with-validation [formGroup]="dataForm.formGroup" [validatedControl]="dataForm.getValidatedControl('firstNameControl')">
+        <div class="fwv__contentselector--body">
+          <label for="firstNameId">First name:</label>
+          <input placeholder="First name (Required)" type="email" class="form-control" id="firstNameId" formControlName="firstNameControl">
+        </div>
+      </app-form-control-with-validation>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <app-form-control-with-validation [formGroup]="dataForm.formGroup" [validatedControl]="dataForm.getValidatedControl('individualControl')">
+        <div class="fwv__contentselector--body">
+          <div class="row no-gutters">
+            <label for="individualId">Individual:</label>
+          </div>
+          <div class="row no-gutters">
+            <app-select [configuration]="individualSelectConfig" id="emailId" formControlName="individualControl" [items]="individuals"></app-select>
+          </div>
+        </div>
+      </app-form-control-with-validation>
+    </div>
+  </div>
+</form>

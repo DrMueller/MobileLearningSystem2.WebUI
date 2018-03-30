@@ -1,0 +1,6 @@
+- Routing in Konstanten
+- Grid.initialize (Slishe & Push)
+- rowStyle Callback in Grid Builder
+
+# To Addd in ng.siig
+- Array.tuilties

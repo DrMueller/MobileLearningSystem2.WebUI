@@ -1,0 +1,17 @@
+<div>
+  <div class="facts-overview__commandbuttons">
+    <div class="row">
+      <button class="btn btn-primary" (click)="createFactClicked()">Create Fact</button>
+      <button class="btn btn-primary" (click)="editFactClicked()">Edit Fact</button>
+      <button class="btn btn-danger" (click)="deleteFactsClicked()">Delete Facts</button>
+      <button class="btn btn-secondary" (click)="reloadFactsClicked()">Reload Facts</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="grid">
+  <div class="row">
+    <ag-grid-angular class="ag-dark facts-overview__aggrid" [gridOptions]="grid.gridOptions">
+    </ag-grid-angular>
+  </div>
+</div>

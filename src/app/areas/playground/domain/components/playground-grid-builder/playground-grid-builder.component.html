@@ -1,0 +1,16 @@
+<div>
+  <div class="row">
+    <div class="col-5">
+      <button class="btn btn-primary" (click)="addRowClicked()">Add Row</button>
+      <button class="btn btn-primary" (click)="removeRowClicked()">Remove Row</button>
+      <button class="btn btn-primary" (click)="changePropertyClicked()">Change property</button>
+      <button class="btn btn-primary" (click)="changeAllClicked()">Change All</button>
+    </div>
+  </div>
+
+  <div *ngIf="grid">
+    <div class="row">
+      <ag-grid-angular #agGrid class="ag-dark overview__aggrid controlling-Grid" [gridOptions]="grid.gridOptions"></ag-grid-angular>
+    </div>
+  </div>
+</div>

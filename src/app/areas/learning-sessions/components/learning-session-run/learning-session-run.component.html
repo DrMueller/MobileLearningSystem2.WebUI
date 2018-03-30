@@ -1,0 +1,42 @@
+<div *ngIf="currentRunFact">
+  <app-collapsible-card>
+    <div class="col-card__contentselector--header">
+      <h5>
+        Test-Run ({{ currentRunFactPosition }} / {{ runFactsCount }})
+      </h5>
+    </div>
+    <div class="col-card__contentselector--body">
+      <div>
+        <div class="ls-overview__learningbuttons">
+          <div class="row">
+            <div class="col-12">
+              <div class="ls--run__commands-row">
+                <button class="btn btn-primary" [disabled]="!canMoveToPreviousRunFact" (click)="moveToPreviousRunFact()">
+                  <i class="fa fa-arrow-circle-left"></i>
+                </button>
+                <button class="btn btn-primary" [disabled]="!canMoveToNextRunFact" (click)="moveToNextRunFact()">
+                  <i class="fa fa-arrow-circle-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <label>{{ currentRunFact.questionText }}</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <p-editor readonly="true" [style]="{'height': '350px' }" [(ngModel)]="currentRunFact.answerText">
+                <p-header>
+                </p-header>
+              </p-editor>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-collapsible-card>
+</div>

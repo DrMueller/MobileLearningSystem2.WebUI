@@ -1,0 +1,14 @@
+@import "../../../../../../styles/_variables.scss";
+
+.col-card__heading {
+  display: inline-block;
+}
+
+.col-card__content-div {
+  overflow: hidden;
+}
+
+.card-header {
+  background: $gray-light;
+  color: $white;
+}

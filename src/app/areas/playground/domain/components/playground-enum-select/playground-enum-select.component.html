@@ -1,0 +1,8 @@
+<div class="row">
+  <app-enum-select (itemChanged)="countryChanged($event)" [selectedItem]="selectedCountry" [enumType]="countryEnum"></app-enum-select>
+  {{ countryChangedText }}
+</div>
+
+<div class="row">
+  <button class="btn btn-primary" (click)="setSwitzerlandClicked()">Set Switzerland</button>
+</div>

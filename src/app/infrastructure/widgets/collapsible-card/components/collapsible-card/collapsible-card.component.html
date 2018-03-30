@@ -1,0 +1,16 @@
+<div class="card">
+  <div (click)="toggleVisibility()" class="card-header">
+      <span [@detailsArrowAnimation]="areDetailsVisible" class="fa fa-arrow-down"></span>
+    <div class="col-card__heading">
+      <ng-content select=".col-card__contentselector--header"></ng-content>
+    </div>
+  </div>
+
+  <div>
+    <div class="col-card__content-div">
+      <div [@detailsContentAnimation]="areDetailsVisible" class="card-block">
+        <ng-content select=".col-card__contentselector--body"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

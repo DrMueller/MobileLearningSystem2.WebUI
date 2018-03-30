@@ -1,0 +1,82 @@
+<form class="form" [formGroup]="dataForm.formGroup">
+  <div class="row">
+    <div class="col-4">
+      <app-form-control [formGroup]="dataForm.formGroup" [validatedControl]="dataForm.getValidatedControl('emailControl')">
+        <div class="form__contentselector--body">
+          <label for="emailId">Email address:</label>
+          <input placeholder="E-Mail (Required)" type="email" class="form-control" id="emailId" placeholder="Enter email" formControlName="emailControl">
+
+          <div class="row">
+            <div [class.has-warning]="dataForm.getValidatedControl('emailControl').hasErrors" class="col-12">
+              <app-form-validation-error-display [validatedControl]="dataForm.getValidatedControl('emailControl')">
+              </app-form-validation-error-display>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              {{ getControlStatusDescription('emailControl') }}
+            </div>
+          </div>
+        </div>
+      </app-form-control>
+    </div>
+
+    <div class="col-4 offset-1">
+      <app-form-control [formGroup]="dataForm.formGroup" [validatedControl]="dataForm.getValidatedControl('individualControl')">
+        <div class="form__contentselector--body">
+          <div class="row">
+            <label for="individualId">Individual:</label>
+          </div>
+          <div class="row">
+            <app-select [configuration]="individualSelectConfig" id="emailId" formControlName="individualControl" [items]="individuals"></app-select>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <app-form-validation-error-display [validatedControl]="dataForm.getValidatedControl('individualControl')">
+              </app-form-validation-error-display>
+            </div>
+          </div>
+
+          <div class="row">
+            {{ getControlStatusDescription('individualControl') }}
+          </div>
+        </div>
+      </app-form-control>
+    </div>
+  </div>
+
+  <div>
+    <div class="col-4">
+      <app-form-control [formGroup]="dataForm.formGroup" [validatedControl]="dataForm.getValidatedControl('countryControl')">
+        <div class="form__contentselector--body">
+          <div class="row">
+            <label for="countryId">Country:</label>
+          </div>
+          <div class="row">
+            <app-enum-select id="countryId" formControlName="countryControl" [enumType]="countryEnum"></app-enum-select>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <app-form-validation-error-display [validatedControl]="dataForm.getValidatedControl('countryControl')">
+              </app-form-validation-error-display>
+            </div>
+          </div>
+
+          <div class="row">
+            {{ getControlStatusDescription('countryControl') }}
+          </div>
+        </div>
+      </app-form-control>
+    </div>
+  </div>
+
+  <div class="row">
+    <button [disabled]="!dataForm.isFormValid" (click)="showDataClicked()" class="btn btn-primary">Show Data</button>
+    <button (click)="fillFormClicked()" class="btn btn-primary">Fill Form</button>
+  </div>
+
+  <div *ngIf="formData">
+    {{ formData }}
+  </div>
+</form>

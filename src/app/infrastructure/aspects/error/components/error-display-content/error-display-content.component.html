@@ -1,0 +1,33 @@
+<div class="err-disp">
+  <div class="modal-header">
+    <h4 class="modal-title">Error ho!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="err-disp__divpageheader">
+      <div class="page-header">
+        <h3>An Error happened!</h3>
+      </div>
+    </div>
+
+    <div class="row">
+      <label class="col-md-3">Error-Name</label>
+      <div class="col-md-9">
+        <label class="info-label">{{ errorInformation.errorName }} </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <label class="col-md-3">Message</label>
+      <div class="col-md-9">
+        <label class="info-label">{{ errorInformation.errorMessage }} </label>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+  </div>
+
+</div>

@@ -1,0 +1,28 @@
+<form class="form" [formGroup]="dataForm.formGroup">
+  <div class="row">
+    <div class="col-4">
+      <app-form-control-with-validation [formGroup]="dataForm.formGroup" [validatedControl]="dataForm.getValidatedControl('firstNameControl')">
+        <div class="fwv__contentselector--body">
+          <label for="firstNameId">First name:</label>
+          <input type="email" class="form-control" id="firstNameId" placeholder="Enter firstname" formControlName="firstNameControl">
+        </div>
+      </app-form-control-with-validation>
+    </div>
+
+    <div class="col-4">
+      <app-form-control-with-validation [formGroup]="dataForm.formGroup" [validatedControl]="dataForm.getValidatedControl('lastNameControl')">
+        <div class="fwv__contentselector--body">
+          <label for="lastNameId">Last name:</label>
+          <input placeholder="Last name (Required)" type="email" class="form-control" id="lastNameId" placeholder="Enter last Name"
+            formControlName="lastNameControl">
+        </div>
+      </app-form-control-with-validation>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button [disabled]="!dataForm.isFormValid" class="btn btn-primary" (click)="createIndividualClicked()">Create Individual</button>
+    </div>
+  </div>
+</form>

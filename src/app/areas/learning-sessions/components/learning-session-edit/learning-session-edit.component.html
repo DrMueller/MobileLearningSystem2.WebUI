@@ -1,0 +1,26 @@
+<div class="row session-edit__commands-row">
+  <div class="col">
+    <button [disabled]="!dataForm.isFormValid" class="btn btn-primary" (click)="saveAsync()">Save Session</button>
+    <button class="btn btn-default" (click)="cancelEditing()">Cancel</button>
+  </div>
+</div>
+
+<form class="form" [formGroup]="dataForm.formGroup">
+  <div class="row">
+    <div class="col-4">
+      <app-form-control-with-validation [formGroup]="dataForm.formGroup" [validatedControl]="dataForm.getValidatedControl('sessionNameControl')">
+        <div class="fwv__contentselector--body">
+          <label for="sessionNameId">Session Name:</label>
+          <input placeholder="Session Name (Required)" type="text" class="form-control" id="sessionNameId" formControlName="sessionNameControl">
+        </div>
+      </app-form-control-with-validation>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="grid">
+  <div class="row">
+    <ag-grid-angular class="ag-dark session-edit__aggrid" [gridOptions]="grid.gridOptions">
+    </ag-grid-angular>
+  </div>
+</div>

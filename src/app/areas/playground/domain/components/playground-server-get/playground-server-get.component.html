@@ -1,0 +1,11 @@
+<div class="row">
+  Individuals from Server:
+</div>
+
+<div class="row">
+  <ul>
+    <li *ngFor="let ind of individuals">
+      {{ ind.id }}: {{ ind.firstName }} {{ ind.lastName }}
+    </li>
+  </ul>
+</div>

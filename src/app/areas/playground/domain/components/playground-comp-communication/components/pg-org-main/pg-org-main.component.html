@@ -1,0 +1,13 @@
+<div *ngIf="organisation">
+  <p>{{ organisation.core.name }} </p>
+  <p>{{ organisation.core.coName }} </p>
+  <p>{{ organisation.address.city }} </p>
+  <p>{{ organisation.address.street }} </p>
+  <p>{{ organisation.headQuarter.hqName }} </p>
+  <p>{{ organisation.headQuarter.hqPlace }} </p>
+</div>
+
+<button (click)="getDataClicked()">Get Data</button>
+
+<app-pg-org-address></app-pg-org-address>
+<app-pg-org-hq></app-pg-org-hq>
