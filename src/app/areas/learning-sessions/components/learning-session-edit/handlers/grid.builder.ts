@@ -1,13 +1,14 @@
 import {
-  Grid, GridBuilderService, RowSelectionType
+  Grid, GridBuilderService, RowSelectionType, GetRowStyleCallback
 } from 'app/infrastructure/shared-features/ag-grid/ag-grid-building';
 
 import { Fact } from 'app/shared';
 
 export class GridBuilder {
-  public static buildGrid(gridBuilder: GridBuilderService): Grid<Fact> {
+  public static buildGrid(gridBuilder: GridBuilderService, getRowStyleCallback: GetRowStyleCallback<Fact>): Grid<Fact> {
     const result = gridBuilder
       .startBuildingOptions()
+      .withRowStyleCallback(getRowStyleCallback)
       .withAnimatedRows(true)
       .withRowSelectionType(RowSelectionType.Multiple)
       .withAutoSizeColumns(true)

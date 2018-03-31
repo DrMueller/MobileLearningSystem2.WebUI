@@ -52,7 +52,7 @@ export class LearningSessionRunComponent implements OnInit {
 
   private initializeRoutes(): void {
     this.route.data.subscribe(data => {
-      var runFacts = <Array<LearningSessionRunFact>>data['runFacts'];
+      const runFacts = <Array<LearningSessionRunFact>>data['runFacts'];
       if (runFacts) {
         this.runFacts = ArrayUtils.shuffleEntries(runFacts);
         this.setCurrentRunFact(0);

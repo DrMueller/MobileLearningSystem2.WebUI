@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ToastService } from 'app/infrastructure/core-services/toast';
 import {
   Grid, GridBuilderService
 } from 'app/infrastructure/shared-features/ag-grid/ag-grid-building';
-
 import { Fact, FactDataService } from 'app/shared';
 
-import { ToastService } from 'app/infrastructure/core-services/toast';
 import { FactsNavigationService } from '../../app-services';
 import { GridBuilder } from './handlers';
 
@@ -32,20 +31,12 @@ export class FactsOverviewComponent implements OnInit {
     await this.loadGridDataAsync();
   }
 
-  private async loadGridDataAsync(): Promise<void> {
-    this.toastService.showInfoToast('Loading Facts..');
-    var facts = await this.factDataService.loadAllFactsAsync();
-
-    this.grid.entries.splice(0, this.grid.entries.length);
-    this.grid.entries.push(...facts);
+  public async reloadFactsClicked(): Promise<void> {
+    await this.loadGridDataAsync();
   }
 
   public createFactClicked(): void {
     this.navigationService.navigateToFactEdit('-1');
-  }
-
-  public async reloadFactsClicked(): Promise<void> {
-    await this.loadGridDataAsync();
   }
 
   public deleteFactsClicked(): void {
@@ -64,6 +55,12 @@ export class FactsOverviewComponent implements OnInit {
       const entry = <Fact>selectedNodes[0].data;
       this.navigationService.navigateToFactEdit(entry.id!);
     }
+  }
+
+  private async loadGridDataAsync(): Promise<void> {
+    this.toastService.showInfoToast('Loading Facts..');
+    const facts = await this.factDataService.loadAllFactsAsync();
+    this.grid.initializeEntries(facts);
   }
 
   private gridCellDoubleclicked($event: any): void {

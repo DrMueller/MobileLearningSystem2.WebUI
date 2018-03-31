@@ -77,10 +77,8 @@ export class LearningSessionsOverviewComponent implements OnInit {
 
   private async loadGridDataAsync(): Promise<void> {
     this.toastService.showInfoToast('Loading Sessions..');
-    var overviewEntries = await this.overviewService.loadOverviewEntriesAsync();
-
-    this.grid.entries.splice(0, this.grid.entries.length);
-    this.grid.entries.push(...overviewEntries);
+    const overviewEntries = await this.overviewService.loadOverviewEntriesAsync();
+    this.grid.initializeEntries(overviewEntries);
     this.toastService.showSuccessToast('Sessions loaded.');
   }
 

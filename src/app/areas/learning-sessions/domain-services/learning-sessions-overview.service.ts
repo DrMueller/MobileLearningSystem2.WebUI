@@ -11,7 +11,7 @@ export class LearningSessionsOverviewService {
 
   public async loadOverviewEntriesAsync(): Promise<LearningSessionOverviewEntry[]> {
     const url = this.relativeUrl + '/Overview';
-    var result = await this.httpService.getArrayAsync(url, LearningSessionOverviewEntry);
+    const result = await this.httpService.getArrayAsync(url, LearningSessionOverviewEntry);
     return result;
   }
 }

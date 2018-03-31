@@ -15,6 +15,11 @@ export class Grid<T extends object> {
     this.updateRowDataWhenGridReady();
   }
 
+  public initializeEntries(entries: T[]): void {
+    this.entries.splice(0, this.entries.length);
+    this.entries.push(...entries);
+  }
+
   public get entries(): T[] {
     return this._entries;
   }

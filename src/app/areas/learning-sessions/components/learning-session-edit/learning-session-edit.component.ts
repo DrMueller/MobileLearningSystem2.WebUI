@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ToastService } from 'app/infrastructure/core-services/toast';
 import {
-  Grid, GridBuilderService
+  Grid, GridBuilderService, RowStyleObject
 } from 'app/infrastructure/shared-features/ag-grid/ag-grid-building';
 import * as rx from 'app/infrastructure/shared-features/rx-forms';
 import { Fact, FactDataService } from 'app/shared';
@@ -33,12 +33,14 @@ export class LearningSessionEditComponent implements OnInit {
     private sessionDataService: LearningSessionDataService,
     private gridBuilder: GridBuilderService,
     private factDataService: FactDataService
-  ) { }
+  ) {
+  }
 
   public async ngOnInit(): Promise<void> {
+    this.initializeGrid();
     this.initializeDataForm();
     this.initializeRoutes();
-    await this.initializeGridAsync();
+    await this.initializeGridDataAsync();
   }
 
   public async saveAsync(): Promise<void> {
@@ -53,39 +55,38 @@ export class LearningSessionEditComponent implements OnInit {
     this.navigationService.navigateToOverview();
   }
 
-  private async initializeGridAsync(): Promise<void> {
-    this.grid = GridBuilder.buildGrid(this.gridBuilder);
+  private initializeGrid(): void {
+    this.grid = GridBuilder.buildGrid(this.gridBuilder, this.getGridRowStyle.bind(this));
     this.grid.gridOptions.onCellDoubleClicked = (event) => this.gridCellDoubleclicked(event);
+  }
 
-    this.grid.gridOptions.getRowStyle = (params: any) => {
-      var fact = <Fact>params.data;
-      if (this.learningSession.factIds.some(factId => {
-        return factId === fact.id;
-      })) {
-        return { background: 'green' };
-      }
-
-      return undefined;
-    };
-
+  private async initializeGridDataAsync(): Promise<void> {
     this.toastService.showInfoToast('Loading Facts..');
-    var facts = await this.factDataService.loadAllFactsAsync();
+    const facts = await this.factDataService.loadAllFactsAsync();
+    this.grid.initializeEntries(facts);
+  }
 
-    this.grid.entries.splice(0, this.grid.entries.length);
-    this.grid.entries.push(...facts);
+  private getGridRowStyle(row: RowStyleObject<Fact>): any {
+    if (this.learningSession.factIds.some(factId => {
+      return factId === row.data.id;
+    })) {
+      return { background: 'green' };
+    }
+
+    return undefined;
   }
 
   private gridCellDoubleclicked($event: any): void {
     const fact = <Fact>$event.data;
 
-    var existingFactIndex = this.learningSession.factIds.indexOf(fact.id!);
+    const existingFactIndex = this.learningSession.factIds.indexOf(fact.id!);
     if (existingFactIndex === -1) {
       this.learningSession.factIds.push(fact.id!);
     } else {
       this.learningSession.factIds.splice(existingFactIndex, 1);
     }
 
-    var nodes = [$event.node];
+    const nodes = [$event.node];
     this.grid.gridOptions.api!.refreshRows(nodes);
   }
 

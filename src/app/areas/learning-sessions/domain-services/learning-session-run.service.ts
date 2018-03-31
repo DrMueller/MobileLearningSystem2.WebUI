@@ -11,7 +11,7 @@ export class LearningSessionRunService {
 
   public async loadRunFacts(id: string): Promise<Array<LearningSessionRunFact>> {
     const url = this.relativeUrl + '/' + id + '/Run';
-    var result = await this.httpService.getArrayAsync(url, LearningSessionRunFact);
+    const result = await this.httpService.getArrayAsync(url, LearningSessionRunFact);
     return result;
   }
 }

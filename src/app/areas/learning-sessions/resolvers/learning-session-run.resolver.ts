@@ -14,12 +14,12 @@ export class LearningSessionRunResolver implements Resolve<Promise<Array<Learnin
     private runService: LearningSessionRunService) { }
 
   public async resolve(route: ActivatedRouteSnapshot): Promise<Array<LearningSessionRunFact>> {
-    var learningSessionId = route.paramMap.get('learningSessionId');
+    const learningSessionId = route.paramMap.get('learningSessionId');
     if (!learningSessionId || learningSessionId === '-1') {
       return Promise.resolve(new Array<LearningSessionRunFact>());
     }
 
-    var runFacts = await this.runService.loadRunFacts(learningSessionId);
+    const runFacts = await this.runService.loadRunFacts(learningSessionId);
     return runFacts;
   }
 }

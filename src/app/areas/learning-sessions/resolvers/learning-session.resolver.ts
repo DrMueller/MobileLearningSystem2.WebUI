@@ -14,12 +14,12 @@ export class LearningSessionResolver implements Resolve<Promise<LearningSessionE
     private dataService: LearningSessionDataService) { }
 
   public async resolve(route: ActivatedRouteSnapshot): Promise<LearningSessionEdit> {
-    var id = route.paramMap.get('learningSessionId');
+    const id = route.paramMap.get('learningSessionId');
     if (!id || id === '-1') {
       return Promise.resolve(new LearningSessionEdit());
     }
 
-    var learningSession = await this.dataService.loadLearningSessionEditByIdAsync(id);
+    const learningSession = await this.dataService.loadLearningSessionEditByIdAsync(id);
     return learningSession;
   }
 }
