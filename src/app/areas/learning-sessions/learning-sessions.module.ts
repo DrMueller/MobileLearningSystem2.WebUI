@@ -34,8 +34,8 @@ import * as resolvers from './resolvers';
     components.LearningSessionRunComponent
   ],
   providers: [
-    appServices.LearningSessionsHttpService,
     appServices.LearningSessionsNavigationService,
+    appServices.LearningSessionHttpService,
     domainServices.LearningSessionDataService,
     domainServices.LearningSessionRunService,
     domainServices.LearningSessionsOverviewService,

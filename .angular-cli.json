@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "ng-seed"
+    "name": "MLS2"
   },
   "apps": [
     {
@@ -58,9 +58,6 @@
     },
     {
       "project": "e2e/tsconfig.e2e.json"
-    },
-    {
-      "exclude": "**/node_modules/**/*"
     }
   ],
   "test": {

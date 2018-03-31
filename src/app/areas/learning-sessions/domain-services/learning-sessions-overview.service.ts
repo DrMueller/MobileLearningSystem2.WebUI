@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { LearningSessionsHttpService } from '../app-services';
+import { CoreHttpService } from 'app/shared/app-services';
 import { LearningSessionOverviewEntry } from '../models';
 
 @Injectable()
 export class LearningSessionsOverviewService {
   private readonly relativeUrl = 'learningSessions';
 
-  public constructor(private httpService: LearningSessionsHttpService) { }
+  public constructor(private httpService: CoreHttpService) { }
 
   public async loadOverviewEntriesAsync(): Promise<LearningSessionOverviewEntry[]> {
     const url = this.relativeUrl + '/Overview';

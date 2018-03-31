@@ -1,1 +1,1 @@
-export * from './facts-http.service';
+export * from './core-http.service';

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { ObjectUtils } from 'app/infrastructure/utils';
 
-import { FactsHttpService } from '../app-services';
+import { CoreHttpService } from '../app-services';
 import { Fact } from '../models';
 
 @Injectable()
 export class FactDataService {
   private readonly relativeUrl = 'Facts';
 
-  public constructor(private httpService: FactsHttpService) { }
+  public constructor(private httpService: CoreHttpService) { }
 
   public async saveFactAsync(fact: Fact): Promise<void> {
     if (!ObjectUtils.isNullOrUndefined(fact.id)) {

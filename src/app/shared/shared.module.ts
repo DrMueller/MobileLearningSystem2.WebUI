@@ -9,8 +9,8 @@ import * as domainServices from './domain-services';
     CommonModule
   ],
   providers: [
-    appServices.FactsHttpService,
     domainServices.FactDataService,
+    appServices.CoreHttpService
   ],
   declarations: []
 })

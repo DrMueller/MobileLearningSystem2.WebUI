@@ -57,6 +57,7 @@ export class GridOptionsBuilderService implements IGridOptionsBuilderService {
     this.gridOptions.rowSelection = RowSelectionTypeMappingHandler.map(type);
     return this;
   }
+  
   public withRowStyleCallback<T>(callback: GetRowStyleCallback<T>): IGridOptionsBuilderService {
     this.gridOptions.getRowStyle = callback;
     return this;

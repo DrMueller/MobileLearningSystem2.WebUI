@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { ObjectUtils } from 'app/infrastructure/utils';
 
-import { LearningSessionsHttpService } from '../app-services';
+import { CoreHttpService } from 'app/shared/app-services';
 import { LearningSessionEdit } from '../models';
 
 @Injectable()
 export class LearningSessionDataService {
   private readonly relativeUrl = 'learningSessions';
 
-  public constructor(private httpService: LearningSessionsHttpService) { }
+  public constructor(private httpService: CoreHttpService) { }
 
   public async saveLearningSessionAsync(fact: LearningSessionEdit): Promise<void> {
     if (ObjectUtils.isNullOrUndefined(fact.id)) {

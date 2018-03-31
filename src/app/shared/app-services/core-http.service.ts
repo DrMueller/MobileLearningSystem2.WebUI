@@ -6,7 +6,7 @@ import { HttpBaseService } from 'app/infrastructure/core-services/http';
 import { ObjectFactoryService } from 'app/infrastructure/core-services/object-creation';
 
 @Injectable()
-export class FactsHttpService extends HttpBaseService {
+export class CoreHttpService extends HttpBaseService {
   public constructor(http: Http, objectFactoryService: ObjectFactoryService, environmentService: EnvironmentService) {
     super(http, objectFactoryService, environmentService.baseUrl);
   }
