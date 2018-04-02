@@ -11,8 +11,8 @@ import { SharedModule } from 'app/shared';
 import * as components from './components';
 import * as appServices from './app-services';
 import * as domainServices from './domain-services';
-import { LearningSessionsRoutingModule } from './learning-sessions-routing.module';
 import * as resolvers from './resolvers';
+import { LearningSessionsRoutingModule } from './learning-sessions-routing.module';
 
 @NgModule({
   imports: [
@@ -35,12 +35,10 @@ import * as resolvers from './resolvers';
   ],
   providers: [
     appServices.LearningSessionsNavigationService,
-    appServices.LearningSessionHttpService,
     domainServices.LearningSessionDataService,
-    domainServices.LearningSessionRunService,
-    domainServices.LearningSessionsOverviewService,
-    resolvers.LearningSessionResolver,
-    resolvers.LearningSessionRunResolver
+    domainServices.LearningSessionOverviewService,
+    resolvers.LearningSessionRunResolver,
+    resolvers.LearningSessionEditResolver
   ]
 })
 

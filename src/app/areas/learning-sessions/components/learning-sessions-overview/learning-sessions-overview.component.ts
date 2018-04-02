@@ -4,14 +4,12 @@ import { ToastService } from 'app/infrastructure/core-services/toast';
 import {
   Grid, GridBuilderService
 } from 'app/infrastructure/shared-features/ag-grid/ag-grid-building';
-
-import { LearningSessionHttpService } from '../../app-services';
+import { ObjectUtils } from 'app/infrastructure/utils';
 
 import { LearningSessionsNavigationService } from '../../app-services';
+import { LearningSessionOverviewService } from '../../domain-services';
 import { LearningSession } from '../../models';
 import { GridBuilder } from './handlers';
-
-import { ObjectUtils } from 'app/infrastructure/utils';
 
 @Component({
   selector: 'app-learning-sessions-overview',
@@ -26,21 +24,8 @@ export class LearningSessionsOverviewComponent implements OnInit {
     private gridBuilder: GridBuilderService,
     private navigationService: LearningSessionsNavigationService,
     private toastService: ToastService,
-    private learningSessionHttpService: LearningSessionHttpService
+    private overviewService: LearningSessionOverviewService
   ) { }
-
-  public canStartLearningSessionRun(): boolean {
-    const selectedNodes = this.grid.gridOptions.api!.getSelectedNodes();
-    return selectedNodes.length === 1;
-  }
-
-  public startLearningSessionRunClicked(): void {
-    const selectedNode = this.grid.gridOptions.api!.getSelectedNodes()[0];
-    if (!ObjectUtils.isNullOrUndefined(selectedNode)) {
-      const selectedLearningSession = <LearningSession>selectedNode.data;
-      this.navigationService.navigateToRun(selectedLearningSession.id!);
-    }
-  }
 
   public async ngOnInit(): Promise<void> {
     this.grid = GridBuilder.buildGrid(this.gridBuilder);
@@ -53,6 +38,11 @@ export class LearningSessionsOverviewComponent implements OnInit {
     await this.loadGridDataAsync();
   }
 
+  public canStartLearningSessionRun(): boolean {
+    const selectedNodes = this.grid.gridOptions.api!.getSelectedNodes();
+    return selectedNodes.length === 1;
+  }
+
   public createLearningSessionClicked() {
     this.navigationService.navigateToEdit('-1');
   }
@@ -61,7 +51,7 @@ export class LearningSessionsOverviewComponent implements OnInit {
     const selectedNodes = this.grid.gridOptions.api!.getSelectedNodes();
     selectedNodes.forEach(d => {
       const selectedLearningSession = <LearningSession>d.data;
-      this.learningSessionHttpService.deleteAsync(selectedLearningSession.id!);
+      this.overviewService.deleteLearningSessionAsync(selectedLearningSession.id!);
     });
 
     this.grid.gridOptions.api!.removeItems(selectedNodes);
@@ -75,10 +65,18 @@ export class LearningSessionsOverviewComponent implements OnInit {
     }
   }
 
+  public startLearningSessionRunClicked(): void {
+    const selectedNode = this.grid.gridOptions.api!.getSelectedNodes()[0];
+    if (!ObjectUtils.isNullOrUndefined(selectedNode)) {
+      const selectedLearningSession = <LearningSession>selectedNode.data;
+      this.navigationService.navigateToRun(selectedLearningSession.id!);
+    }
+  }
+
   private async loadGridDataAsync(): Promise<void> {
     this.toastService.showInfoToast('Loading Sessions..');
-    const overviewEntries = await this.learningSessionHttpService.loadAllAsync();
-    this.grid.initializeEntries(overviewEntries);
+    const learningSessions = await this.overviewService.loadAllLearningSessionsAsync();
+    this.grid.initializeEntries(learningSessions);
     this.toastService.showSuccessToast('Sessions loaded.');
   }
 

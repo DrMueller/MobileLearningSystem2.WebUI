@@ -11,10 +11,10 @@ import { ErrorAppInitializationService } from '../error';
 })
 export class AppComponent implements OnInit {
   constructor(
-    private errorAppInitializationService: ErrorAppInitializationService,
+    errorAppInitializationService: ErrorAppInitializationService,
     toastConfigurationService: ToastConfigurationService,
     viewContainerRef: ViewContainerRef) {
-    this.errorAppInitializationService.initialize();
+    errorAppInitializationService.initialize();
     toastConfigurationService.setContainer(viewContainerRef);
   }
 

@@ -2,10 +2,10 @@ import {
   Grid, GridBuilderService, RowSelectionType
 } from 'app/infrastructure/shared-features/ag-grid/ag-grid-building';
 
-import { LearningSessionOverviewEntry } from '../../../models';
+import { LearningSession } from '../../../models';
 
 export class GridBuilder {
-  public static buildGrid(gridBuilder: GridBuilderService): Grid<LearningSessionOverviewEntry> {
+  public static buildGrid(gridBuilder: GridBuilderService): Grid<LearningSession> {
     const result = gridBuilder
       .startBuildingOptions()
       .withRowSelectionType(RowSelectionType.Multiple)
@@ -16,7 +16,7 @@ export class GridBuilder {
       .withSuppressMenu(false)
       .buildColumnDefinition()
       .buildGridOptions()
-      .buildGrid<LearningSessionOverviewEntry>();
+      .buildGrid<LearningSession>();
 
     return result;
   }

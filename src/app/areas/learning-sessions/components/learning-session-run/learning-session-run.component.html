@@ -1,8 +1,8 @@
-<div *ngIf="currentRunFact">
+<div *ngIf="currentFact">
   <app-collapsible-card>
     <div class="col-card__contentselector--header">
       <h5>
-        Test-Run ({{ currentRunFactPosition }} / {{ runFactsCount }})
+        Test-Run ({{ currentFactPosition }} / {{ factsCount }})
       </h5>
     </div>
     <div class="col-card__contentselector--body">
@@ -11,10 +11,10 @@
           <div class="row">
             <div class="col-12">
               <div class="ls--run__commands-row">
-                <button class="btn btn-primary" [disabled]="!canMoveToPreviousRunFact" (click)="moveToPreviousRunFact()">
+                <button class="btn btn-primary" [disabled]="!canMoveToPreviousFact" (click)="moveToPreviousFact()">
                   <i class="fa fa-arrow-circle-left"></i>
                 </button>
-                <button class="btn btn-primary" [disabled]="!canMoveToNextRunFact" (click)="moveToNextRunFact()">
+                <button class="btn btn-primary" [disabled]="!canMoveToNextFact" (click)="moveToNextFact()">
                   <i class="fa fa-arrow-circle-right"></i>
                 </button>
               </div>
@@ -23,13 +23,15 @@
 
           <div class="row">
             <div class="col-12">
-              <label>{{ currentRunFact.questionText }}</label>
+              <h4>
+                <label>{{ currentFact.questionText }}</label>
+              </h4>
             </div>
           </div>
 
           <div class="row">
             <div class="col-12">
-              <p-editor readonly="true" [style]="{'height': '350px' }" [(ngModel)]="currentRunFact.answerText">
+              <p-editor readonly="true" [style]="{'height': '350px' }" [(ngModel)]="currentFact.answerText">
                 <p-header>
                 </p-header>
               </p-editor>

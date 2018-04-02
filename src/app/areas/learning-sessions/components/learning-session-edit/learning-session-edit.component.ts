@@ -10,7 +10,7 @@ import { Fact, FactDataService } from 'app/shared';
 
 import { LearningSessionsNavigationService } from '../../app-services';
 import { LearningSessionDataService } from '../../domain-services';
-import { LearningSessionEdit } from '../../models';
+import { LearningSession } from '../../models';
 import { FormBuilder, GridBuilder } from './handlers';
 
 @Component({
@@ -22,7 +22,8 @@ import { FormBuilder, GridBuilder } from './handlers';
 export class LearningSessionEditComponent implements OnInit {
   public dataForm: rx.FormWithValidation;
   public grid: Grid<Fact>;
-  private learningSession: LearningSessionEdit;
+  private facts: Fact[];
+  private learningSession: LearningSession;
 
   public constructor(private route: ActivatedRoute,
     private rxFormBuilder: rx.RxFormBuilder,
@@ -30,23 +31,24 @@ export class LearningSessionEditComponent implements OnInit {
     private validatorFactory: rx.ValidatorFactoryService,
     private toastService: ToastService,
     private navigationService: LearningSessionsNavigationService,
-    private sessionDataService: LearningSessionDataService,
+    private dataService: LearningSessionDataService,
     private gridBuilder: GridBuilderService,
     private factDataService: FactDataService
   ) {
   }
 
   public async ngOnInit(): Promise<void> {
-    this.initializeGrid();
     this.initializeDataForm();
     this.initializeRoutes();
+    this.initializeGrid();
     await this.initializeGridDataAsync();
   }
 
   public async saveAsync(): Promise<void> {
     this.dataForm.setModelFromControls(this.learningSession);
 
-    await this.sessionDataService.saveLearningSessionAsync(this.learningSession);
+    this.learningSession = await this.dataService.saveLearningSessionAsync(this.learningSession);
+    await this.dataService.saveFactsAsync(this.learningSession.id!, this.facts);
     this.toastService.showSuccessToast('Session saved.');
     this.navigationService.navigateToOverview();
   }
@@ -55,20 +57,18 @@ export class LearningSessionEditComponent implements OnInit {
     this.navigationService.navigateToOverview();
   }
 
-  private initializeGrid(): void {
-    this.grid = GridBuilder.buildGrid(this.gridBuilder, this.getGridRowStyle.bind(this));
-    this.grid.gridOptions.onCellDoubleClicked = (event) => this.gridCellDoubleclicked(event);
-  }
-
   private async initializeGridDataAsync(): Promise<void> {
     this.toastService.showInfoToast('Loading Facts..');
     const facts = await this.factDataService.loadAllFactsAsync();
     this.grid.initializeEntries(facts);
+    await this.inizializeSelectedFactsAsync();
+    this.grid.gridOptions.api!.refreshView();
+    this.toastService.showSuccessToast('Facts loaded.');
   }
 
   private getGridRowStyle(row: RowStyleObject<Fact>): any {
-    if (this.learningSession.factIds.some(factId => {
-      return factId === row.data.id;
+    if (this.facts && this.facts.some(fact => {
+      return fact.id === row.data.id;
     })) {
       return { background: 'green' };
     }
@@ -79,11 +79,14 @@ export class LearningSessionEditComponent implements OnInit {
   private gridCellDoubleclicked($event: any): void {
     const fact = <Fact>$event.data;
 
-    const existingFactIndex = this.learningSession.factIds.indexOf(fact.id!);
+    const existingFactIndex = this.facts.findIndex(f => {
+      return f.id === fact.id;
+    });
+
     if (existingFactIndex === -1) {
-      this.learningSession.factIds.push(fact.id!);
+      this.facts.push(fact);
     } else {
-      this.learningSession.factIds.splice(existingFactIndex, 1);
+      this.facts.splice(existingFactIndex, 1);
     }
 
     const nodes = [$event.node];
@@ -97,9 +100,22 @@ export class LearningSessionEditComponent implements OnInit {
       this.validatorFactory);
   }
 
+  private initializeGrid(): void {
+    this.grid = GridBuilder.buildGrid(this.gridBuilder, this.getGridRowStyle.bind(this));
+    this.grid.gridOptions.onCellDoubleClicked = (event) => this.gridCellDoubleclicked(event);
+  }
+
+  private async inizializeSelectedFactsAsync(): Promise<void> {
+    if (this.learningSession.id) {
+      this.facts = await this.dataService.loadFactsAsync(this.learningSession.id);
+    } else {
+      this.facts = new Array<Fact>();
+    }
+  }
+
   private initializeRoutes(): void {
-    this.route.data.subscribe(data => {
-      this.learningSession = <LearningSessionEdit>data['learningSession'] || new LearningSessionEdit();
+    this.route.data.subscribe(async data => {
+      this.learningSession = <LearningSession>data['learningSession'] || new LearningSession();
       this.dataForm.setControlDataFromModel(this.learningSession);
     });
   }

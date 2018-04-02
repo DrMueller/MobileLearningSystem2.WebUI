@@ -14,12 +14,12 @@ const routes: Routes = [
       {
         path: ':learningSessionId',
         component: components.LearningSessionEditComponent,
-        resolve: { learningSession: resolvers.LearningSessionResolver }
+        resolve: { learningSession: resolvers.LearningSessionEditResolver }
       },
       {
         path: ':learningSessionId/run',
         component: components.LearningSessionRunComponent,
-        resolve: { runFacts: resolvers.LearningSessionRunResolver }
+        resolve: { facts: resolvers.LearningSessionRunResolver }
       }
     ]
   }
