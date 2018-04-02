@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ObjectUtils } from 'app/infrastructure/utils';
 
-import { CoreHttpService } from '../app-services';
+import { CoreHttpService } from 'app/infrastructure/core-services/http';
 import { Fact } from '../models';
 
 @Injectable()

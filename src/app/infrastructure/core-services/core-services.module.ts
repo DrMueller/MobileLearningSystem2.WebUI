@@ -9,6 +9,8 @@ import { EnvironmentService } from './environment';
 import { EventDispatcherService } from './event-dispatching';
 import { ObjectFactoryService } from './object-creation';
 import { ToastConfigurationService, ToastService } from './toast/services';
+import { AppInfoDataService } from './app-info';
+import { CoreHttpService } from './http';
 
 // Not adding the mediators as providers here, since they should be used in the components
 
@@ -24,7 +26,9 @@ import { ToastConfigurationService, ToastService } from './toast/services';
     ToastConfigurationService,
     EventDispatcherService,
     ObjectFactoryService,
-    EnumService
+    EnumService,
+    CoreHttpService,
+    AppInfoDataService
   ]
 })
 export class CoreServicesModule { }

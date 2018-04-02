@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { CoreHttpService } from 'app/infrastructure/core-services/http';
 import { ObjectUtils } from 'app/infrastructure/utils';
-import { CoreHttpService } from 'app/shared/app-services';
 import { Fact } from 'app/shared/models';
 
 import { LearningSession } from '../models';

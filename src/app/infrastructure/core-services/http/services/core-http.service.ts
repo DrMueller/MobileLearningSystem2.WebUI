@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { EnvironmentService } from 'app/infrastructure/core-services/environment';
-import { HttpBaseService } from 'app/infrastructure/core-services/http';
+import { HttpBaseService } from './http-base.service';
 import { ObjectFactoryService } from 'app/infrastructure/core-services/object-creation';
 
 @Injectable()

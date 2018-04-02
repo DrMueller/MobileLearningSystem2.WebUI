@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CoreHttpService } from 'app/shared/app-services';
+import { CoreHttpService } from 'app/infrastructure/core-services/http';
 
 import { LearningSession } from '../models';
 
