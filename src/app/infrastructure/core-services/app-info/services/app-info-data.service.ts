@@ -12,7 +12,7 @@ export class AppInfoDataService {
   }
 
   public async getApplicationInformationAsync(): Promise<ApplicationInformation> {
-    var result = await this.coreHttpService.getAsync(this.relativeUrl, ApplicationInformation);
+    const result = await this.coreHttpService.getAsync(this.relativeUrl, ApplicationInformation);
     return result;
   }
 }
