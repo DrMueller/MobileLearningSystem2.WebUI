@@ -14,7 +14,7 @@ import { AppNavigationService } from '../../services';
 })
 export class AppNavigationComponent implements OnInit {
 
-  public applicationInformation: ApplicationInformation
+  public applicationInformation: ApplicationInformation;
   public appNavigationEntries: AppNavigationEntry[] = [];
 
   public constructor(
