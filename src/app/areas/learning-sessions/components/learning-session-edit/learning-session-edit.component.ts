@@ -57,6 +57,16 @@ export class LearningSessionEditComponent implements OnInit {
     this.navigationService.navigateToOverview();
   }
 
+  public selectAllFacts(): void {
+    this.grid.entries.forEach(fact => {
+      if (this.facts.findIndex(f => f.id === fact.id) === -1) {
+        this.facts.push(fact);
+      }
+    });
+
+    this.grid.gridOptions.api!.refreshView();
+  }
+
   private async initializeGridDataAsync(): Promise<void> {
     this.toastService.showInfoToast('Loading Facts..');
     const facts = await this.factDataService.loadAllFactsAsync();
@@ -64,6 +74,14 @@ export class LearningSessionEditComponent implements OnInit {
     await this.inizializeSelectedFactsAsync();
     this.grid.gridOptions.api!.refreshView();
     this.toastService.showSuccessToast('Facts loaded.');
+  }
+
+  private async inizializeSelectedFactsAsync(): Promise<void> {
+    if (this.learningSession.id) {
+      this.facts = await this.dataService.loadFactsAsync(this.learningSession.id);
+    } else {
+      this.facts = new Array<Fact>();
+    }
   }
 
   private getGridRowStyle(row: RowStyleObject<Fact>): any {
@@ -103,14 +121,6 @@ export class LearningSessionEditComponent implements OnInit {
   private initializeGrid(): void {
     this.grid = GridBuilder.buildGrid(this.gridBuilder, this.getGridRowStyle.bind(this));
     this.grid.gridOptions.onCellDoubleClicked = (event) => this.gridCellDoubleclicked(event);
-  }
-
-  private async inizializeSelectedFactsAsync(): Promise<void> {
-    if (this.learningSession.id) {
-      this.facts = await this.dataService.loadFactsAsync(this.learningSession.id);
-    } else {
-      this.facts = new Array<Fact>();
-    }
   }
 
   private initializeRoutes(): void {

@@ -18,9 +18,17 @@
   </div>
 </form>
 
+<div class="row session-edit__facts-row">
+  <div class="col">
+    <button class="btn btn-primary" (click)="selectAllFacts()">Select all</button>
+  </div>
+</div>
+
 <div *ngIf="grid">
   <div class="row">
-    <ag-grid-angular class="ag-dark session-edit__aggrid" [gridOptions]="grid.gridOptions">
-    </ag-grid-angular>
+    <div class="col">
+      <ag-grid-angular class="ag-dark session-edit__aggrid" [gridOptions]="grid.gridOptions">
+      </ag-grid-angular>
+    </div>
   </div>
 </div>
