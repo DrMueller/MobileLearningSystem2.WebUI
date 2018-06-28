@@ -3,8 +3,10 @@ import { GridOptions } from 'ag-grid';
 import { ObservableArrayProxyHandler } from '../handlers/observable-array-proxy.handler';
 import { ObversableProxyHandler } from '../handlers/obversable-proxy.handler';
 import { ArrayChangeType } from './array-change-type.enum';
+import { OneArgFunc } from 'app/infrastructure/types/callbacks';
 
 export class Grid<T extends object> {
+  private _allEntries: T[];
   private _isGridReady = false;
   private readonly _entries: T[];
 
@@ -15,9 +17,12 @@ export class Grid<T extends object> {
     this.updateRowDataWhenGridReady();
   }
 
-  public initializeEntries(entries: T[]): void {
-    this.entries.splice(0, this.entries.length);
-    this.entries.push(...entries);
+  public filterEntries(filter: OneArgFunc<T, boolean>): void {
+    const filteredEntries = this._allEntries.filter(entry => {
+      return filter(entry);
+    });
+
+    this.alignEntries(filteredEntries);
   }
 
   public get entries(): T[] {
@@ -26,6 +31,17 @@ export class Grid<T extends object> {
 
   public gridEntryChanged(_target: T, _p: PropertyKey, _value: any, _receiver: any): void {
     this.updateRowDataWhenGridReady();
+  }
+
+  public initializeEntries(entries: T[]): void {
+    this.alignEntries(entries);
+    this._allEntries = new Array<T>();
+    this._allEntries.push(...this.entries);
+  }
+
+  private alignEntries(entries: T[]): void {
+    this.entries.splice(0, this.entries.length);
+    this.entries.push(...entries);
   }
 
   private createProxy(entry: T): T {

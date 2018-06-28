@@ -1,6 +1,6 @@
 .facts-overview__aggrid {
   width: 100%;
-  min-height: 600px;
+  height: 600px;
 }
 
 .facts-overview {
@@ -13,4 +13,8 @@
 
 button {
   margin-right: 10px;
+}
+
+.facts-overview__search-inputs {
+  min-width: 100px;
 }

@@ -16,7 +16,9 @@ import { GridBuilder } from './handlers';
 })
 
 export class FactsOverviewComponent implements OnInit {
+
   public grid: Grid<Fact>;
+  private _searchText: string;
 
   public constructor(
     private toastService: ToastService,
@@ -55,6 +57,27 @@ export class FactsOverviewComponent implements OnInit {
       const entry = <Fact>selectedNodes[0].data;
       this.navigationService.navigateToFactEdit(entry.id!);
     }
+  }
+
+  public get searchText(): string {
+    return this._searchText;
+  }
+
+  public set searchText(value: string) {
+    this._searchText = value.toLowerCase();
+    this.grid.filterEntries(entry => this.filterEntry(entry));
+  }
+
+  private filterEntry(entry: Fact): boolean {
+    if (entry.answerText!.toLocaleLowerCase().indexOf(this._searchText) > -1) {
+      return true;
+    }
+
+    if (entry.questionText!.toLocaleLowerCase().indexOf(this._searchText) > -1) {
+      return true;
+    }
+
+    return false;
   }
 
   private async loadGridDataAsync(): Promise<void> {
