@@ -5,61 +5,61 @@ import { ObversableProxyHandler } from '../handlers/obversable-proxy.handler';
 import { ArrayChangeType } from './array-change-type.enum';
 import { OneArgFunc } from 'app/infrastructure/types/callbacks';
 
-export class Grid<T extends object> {
-  private _allEntries: T[];
+export class Grid<TModel extends object> {
   private _isGridReady = false;
-  private readonly _entries: T[];
+  private readonly _allEntries: TModel[];
+  private readonly _entries: TModel[]; // This array should not get changed, since it is in fact a Proxy
 
   public constructor(public gridOptions: GridOptions) {
     gridOptions.onGridReady = this.gridReady.bind(this);
-    const proxyHandler = new ObservableArrayProxyHandler<T[]>(this.gridArrayChanged.bind(this));
-    this._entries = new Proxy(new Array<T>(), proxyHandler);
+    const proxyHandler = new ObservableArrayProxyHandler<TModel[]>(this.onModelsArrayChanged.bind(this));
+    this._entries = new Proxy(new Array<TModel>(), proxyHandler);
+    this._allEntries = new Proxy(new Array<TModel>(), proxyHandler);
     this.updateRowDataWhenGridReady();
   }
 
-  public filterEntries(filter: OneArgFunc<T, boolean>): void {
+  public filterEntries(filterCallback: OneArgFunc<TModel, boolean>): void {
     const filteredEntries = this._allEntries.filter(entry => {
-      return filter(entry);
+      return filterCallback(entry);
     });
 
-    this.alignEntries(filteredEntries);
+    this.alignEntries(this._entries, filteredEntries);
   }
 
-  public get entries(): T[] {
+  public get entries(): TModel[] {
     return this._entries;
   }
 
-  public gridEntryChanged(_target: T, _p: PropertyKey, _value: any, _receiver: any): void {
+  public initializeEntries(entries: TModel[]): void {
+    this.alignEntries(this._allEntries, entries);
+    this.alignEntries(this._entries, entries);
+  }
+
+  public onModelChanged(_target: TModel, _p: PropertyKey, _value: any, _receiver: any): void {
     this.updateRowDataWhenGridReady();
   }
 
-  public initializeEntries(entries: T[]): void {
-    this.alignEntries(entries);
-    this._allEntries = new Array<T>();
-    this._allEntries.push(...this.entries);
+  private alignEntries(originalArray: TModel[], newEntries: TModel[]): void {
+    originalArray.splice(0, originalArray.length);
+    originalArray.push(...newEntries);
   }
 
-  private alignEntries(entries: T[]): void {
-    this.entries.splice(0, this.entries.length);
-    this.entries.push(...entries);
-  }
-
-  private createProxy(entry: T): T {
-    const entryProxyHandler = new ObversableProxyHandler<T>(this.gridEntryChanged.bind(this));
+  private createProxy(entry: TModel): TModel {
+    const entryProxyHandler = new ObversableProxyHandler<TModel>(this.onModelChanged.bind(this));
     const proxy = new Proxy(entry, entryProxyHandler);
     return proxy;
   }
 
-  private gridArrayChanged(_target: T, p: PropertyKey, value: any, changeType: ArrayChangeType): void {
+  private gridReady(): void {
+    this._isGridReady = true;
+  }
+
+  private onModelsArrayChanged(_: TModel, p: PropertyKey, value: any, changeType: ArrayChangeType): void {
     if (changeType === ArrayChangeType.EntryInserted) {
       this._entries[p] = this.createProxy(value);
     }
 
     this.updateRowDataWhenGridReady();
-  }
-
-  private gridReady(): void {
-    this._isGridReady = true;
   }
 
   private updateRowDataWhenGridReady(): void {
